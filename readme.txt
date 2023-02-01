@@ -1,5 +1,5 @@
 PERSONAL SITE:
-This site is meant to display my resume and projects in an easy to read, astetically pleasing way. This site is currently deployed at https://www.nicholasmaheshwari.com/ using Netlify and AWS.
+This site is meant to display my resume and projects in an easy to read, astetically pleasing way. This site is currently deployed at https://www.jaysenzepeda.com/ using Netlify and AWS.
 
 
 
