@@ -32,27 +32,26 @@ def get_weather_data(url):
     result['sunrise'] = soup.find("span", attrs={"data-testid": "SunriseTime"}).text
     #extract sunset time 
     result['sunset'] = soup.find("span", attrs={"data-testid": "SunsetTime"}).text
-
     # extract temperature now
     result['temp_now'] = soup.find("span", attrs={"data-testid": "TemperatureValue"}).text
-
     # get the day and hour now
-    result['day'] = soup.find("h3", attrs={"data-testid": "daypartName"}).text
+    result['day'] = soup.find("div", attrs={"class": "DailyForecast--timestamp--22Azh"}).text
     # get the precipitation
     result['precipitation'] = soup.find("span", attrs={"data-testid":"precip", "data-testid": "PercentageValue"}).text
     # get the % of humidity
-    result['humidity'] = soup.find("span", attrs={"data-testid": "PercentageValue"}).text
+    result['humidity'] = soup.find("span", attrs={"class":"DetailsTable--value--2YD0-","data-testid": "PercentageValue"}).text
     # get the % of humidity
     result['UV'] = soup.find("span", attrs={"data-testid": "UVIndexValue"}).text
     # extract the wind
     result['wind'] = soup.find("span", attrs={"data-testid": "Wind"}).text
-        # get next few days' weather
+    # extract weather summary
     result['summary'] = soup.find("p", attrs={"data-testid": "wxPhrase"}).text
-    #next_days = []
-    #days = soup.find("div", attrs={"id": "wob_dp"})
-    #for day in days.findAll("div", attrs={"class": "wob_df"}):
+
+    next_days = []
+    days = soup.find("h3", attrs={"class": "DetailsSummary--daypartName--kbngc"})
+    for day in days.findAll("h3", attrs={"class": "DetailsSummary--daypartName--kbngc"}):
         # extract the name of the day
-     #   day_name = day.findAll("div")[0].attrs['aria-label']
+        day_name = day.findAll("h3")[0].attrs['daypartName']
       #  # get weather status for that day
        # weather = day.find("img").attrs["alt"]
        # temp = day.findAll("span", {"class": "wob_t"})
@@ -61,18 +60,23 @@ def get_weather_data(url):
         # minimum temparature in Celsius, use temp[3].text if you want fahrenheit
        # min_temp = temp[2].text
         #next_days.append({"name": day_name, "weather": weather, "max_temp": max_temp, "min_temp": min_temp})
+        next_days.append({"name": day_name})
     # append to result
-    #result['next_days'] = next_days
+    result['next_days'] = next_days
     return result
 
 if __name__ == "__main__":
-  URL = "https://weather.com/weather/tenday/l/Albuquerque+NM?canonicalCityId=2defda56c5089a3cae25463d822f01e81fa91fcc68d08f190e404a38ae70a9f1"
-  data = get_weather_data(URL)
-
-print(data["region"])
-print(data["temp_now"])
-print(data["wind"])
-print(data["summary"])
-print(data["UV"])
-print(data["humidity"])
-print(data["precipitation"])
+    URL = "https://weather.com/weather/tenday/l/Albuquerque+NM?canonicalCityId=2defda56c5089a3cae25463d822f01e81fa91fcc68d08f190e404a38ae70a9f1"
+    data = get_weather_data(URL)
+    #Print weather data. 
+    print( data["day"][6:])
+    print(data["region"])
+    print(data["temp_now"])
+    print(data["summary"])
+    print(data["wind"])
+    print(data["UV"])
+    print(data["humidity"])
+    print(data["precipitation"])
+    print(data["sunrise"])
+    print(data["sunset"])
+    print(data["next_days"])
