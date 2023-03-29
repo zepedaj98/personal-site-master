@@ -1,0 +1,18 @@
+error: Found argument '--websocket-port' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    geckodriver --port <PORT>
+
+For more information try --help
+error: Found argument '--websocket-port' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    geckodriver --port <PORT>
+
+For more information try --help
+1680109793841	mozrunner::runner	INFO	Running command: "/snap/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.gvxXOLKgVxPB"
+Gtk-Message: 11:09:53.903: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+1680109861390	mozrunner::runner	INFO	Running command: "/snap/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.ahMbRVscHMIp"
+Gtk-Message: 11:11:01.452: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.
+1680110120460	mozrunner::runner	INFO	Running command: "/snap/bin/firefox" "-marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.pIoIfGzZDmzV"
+Gtk-Message: 11:15:20.530: Not loading module "atk-bridge": The functionality is provided by GTK natively. Please try to not load it.

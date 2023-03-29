@@ -9,6 +9,13 @@ Original file is located at
 
 from bs4 import BeautifulSoup as bs 
 import requests
+import time
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 # US english
@@ -87,9 +94,45 @@ def print_weather(weather_data):
         print(dayweather["weather"])
         print(dayweather["rain_chance"])
 
-
-
 if __name__ == "__main__":
-    URL = "https://weather.com/weather/tenday/l/Albuquerque+NM?canonicalCityId=2defda56c5089a3cae25463d822f01e81fa91fcc68d08f190e404a38ae70a9f1"
-    data = get_weather_data(URL)
-    print_weather(data)
+    #URL = "https://weather.com/weather/tenday/l/Albuquerque+NM?canonicalCityId=2defda56c5089a3cae25463d822f01e81fa91fcc68d08f190e404a38ae70a9f1"
+    #data = get_weather_data(URL)
+    #print_weather(data)
+    
+    #location we are getting information about
+    location = "Albuquerque, NM"
+    
+    #install needed chrome driver with the manager
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    #Using chrom to access weather.com
+    driver.get("http://weather.com")
+
+    # wait two seconds for website to load
+    time.sleep(2)
+    
+    # find search bar and enter our location. 
+    loc_input = WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.ID, "LocationSearch_input")))
+    loc_input.click()
+    loc_input.send_keys(location)
+    time.sleep(2)
+    # select first option from drop down list
+    search_button = WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.ID, "LocationSearch_listbox-0")))
+    search_button.click()
+    
+    #move to 10day forecast 
+    time.sleep(2)
+    forecast_button = WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.ID, "ListItem--listItem--25ojW styles--listItem--2CkF3 Button--default--2gfm1")))
+    forecast_button.click()
+
+    #wait then end browser session
+    #time.sleep(2)
+    #driver.quit()
+    
+    #id_box = driver.find_element_by_id('LocationSearch_input')
+    #id_box.send_keys(location)
+    
+    #search_button.click()
+    # do something with the website, like search for something
+
+    # close the browser window
+
