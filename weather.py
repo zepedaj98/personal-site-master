@@ -28,6 +28,7 @@ def print_weather(weather_data):
 
 from bs4 import BeautifulSoup as bs 
 import requests
+import matplotlib.pyplot as plt 
 from flask import Flask
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 # US english
@@ -104,10 +105,41 @@ def test_page():
         html += "<h2>Next 10 days</h2>"
         html += "<table>"
         html += "<tr><th>Day</th><th>Weather</th><th>High</th><th>Low</th><th>Chance of Rain</th></tr>"
+        #create empty lists to store the data for the forecast for plotting
+        names = []
+        weathers = []
+        max_temps = []
+        min_temps = []
+        rain_chances = []
         for day in data['next_days'][:-1]:
+            names.append(day['name'])
+            weathers.append(day['weather'])
+            max_temps.append(day['max_temp'][:-1])
+            min_temps.append(day['min_temp'][:-1])
+            rain_chances.append(day['rain_chance'])
             html += "<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(day['name'], day['weather'], day['max_temp'], day['min_temp'], day['rain_chance'])
+            
         html += "</table>"
+        max_temp_integers = []
+        min_temp_integers = []
+        for maxTemp, minTemp in zip(max_temps, min_temps):
+            int_max_temp = int(maxTemp)
+            int_min_temp = int(minTemp)
+            max_temp_integers.append(int_max_temp)
+            min_temp_integers.append(int_min_temp)
+        print(min_temp_integers)
+        #extract the keys and values from the 10day forcast data 
+        #dayKeys = list(data['next_days'].keys())
+        
+        #plot the temperature forecast for the next 10 days
+        #plt.bar(tempValues)
+        #plt.xlabel("day")
+        #plt.ylabel("Temperautes")
+        #plt.title("Forecast PLot")
+        #plt.show()
+        
         return html
+
     URL = "https://weather.com/weather/tenday/l/1a5e73f128fd8e76d7a098b97c839bc14958ea402d3ab0a210e4f8e0b1d14dec"
     #scrape 10day weather forecast from weather.com and store it in data
     data = get_weather_data(URL)
