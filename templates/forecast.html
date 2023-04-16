@@ -1,0 +1,31 @@
+<h2>Current weather in {{ data.region }}</h2>
+<p>{{ data.date }}, {{ data.time }}</p>
+<p>Temperature: {{ data.temp_now }}</p>
+<p>Summary: {{ data.summary }}</p>
+<p>Chance of precipitation: {{ data.precipitation }}</p>
+<p>Humidity: {{ data.humidity }}</p>
+<p>UV Index: {{ data.UV }}</p>
+<p>Wind: {{ data.wind }}</p>
+
+<h2>Next 10 days</h2>
+<table>
+  <tr>
+    <th>Day</th>
+    <th>Weather</th>
+    <th>High</th>
+    <th>Low</th>
+    <th>Chance of Rain</th>
+  </tr>
+  {% for day in data.next_days[:-1] %}
+  <tr>
+    <td>{{ day.name }}</td>
+    <td>{{ day.weather }}</td>
+    <td>{{ day.max_temp }}</td>
+    <td>{{ day.min_temp }}</td>
+    <td>{{ day.rain_chance }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% set static_url = url_for('static', filename='forecast.png') %}
+<img src="{{ static_url }}" alt="Forecast Image">
