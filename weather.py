@@ -118,13 +118,14 @@ def weather():
             min_temp_integers.append(int_min_temp)
         
         #set up plot for temperature forecast for the next 10 days
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(10,5))
         ax.plot(names, max_temp_integers, label='Highs', color='red')
         ax.plot(names, min_temp_integers, label='Lows', color='blue')
         ax.set_xlabel('Day')
         ax.set_ylabel('Temperautes (degrees F)')
         plt.title('Forecast PLot')
         ax.legend()
+        
         #save image to file
         fig.savefig('static/forecast.png')
 
