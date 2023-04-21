@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing:border-box
 }
 
 .wrapper {
@@ -29,6 +30,9 @@
 }
 
 .img-town{
+    width: 100%;
+}
+.img-plot{
     width: 100%;
 }
 
@@ -108,3 +112,16 @@ u1 li a:hover {
     color: #6e0d0d;
 
 }
+.button {
+    background-color: #aa042e;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+  }
+  
+  .button1 {border-radius: 50%;}

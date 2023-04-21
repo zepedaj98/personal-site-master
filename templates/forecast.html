@@ -1,31 +1,89 @@
-<h2>Current weather in {{ data.region }}</h2>
-<p>{{ data.date }}, {{ data.time }}</p>
-<p>Temperature: {{ data.temp_now }}</p>
-<p>Summary: {{ data.summary }}</p>
-<p>Chance of precipitation: {{ data.precipitation }}</p>
-<p>Humidity: {{ data.humidity }}</p>
-<p>UV Index: {{ data.UV }}</p>
-<p>Wind: {{ data.wind }}</p>
+<head>
+  <meta charset="utf-8">
+  <title>Weather</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel = "stylesheet" href= "style.css">
+</head>
+<style>
+  .header, .footer {
+    background-color: #171841;
+    color: white;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .card{
+    width:100vw;
+    height:25vh;
+    background: tan;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+  }
 
-<h2>Next 10 days</h2>
-<table>
-  <tr>
-    <th>Day</th>
-    <th>Weather</th>
-    <th>High</th>
-    <th>Low</th>
-    <th>Chance of Rain</th>
-  </tr>
-  {% for day in data.next_days[:-1] %}
-  <tr>
-    <td>{{ day.name }}</td>
-    <td>{{ day.weather }}</td>
-    <td>{{ day.max_temp }}</td>
-    <td>{{ day.min_temp }}</td>
-    <td>{{ day.rain_chance }}</td>
-  </tr>
-  {% endfor %}
-</table>
+  .card .temperatures {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    width: 75%;
+  }
+  .card .temperatures .high-temp,
+  .card .temperatures .low-temp {
+    margin-left: 10px;
+  }
+  .card .temperatures .high-temp {
+    color: red;
+  }
+  .card .temperatures .low-temp {
+    color: blue;
+  }
+  .card .weather {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+    width: 75%;
+  }
+</style>
 
-{% set static_url = url_for('static', filename='forecast.png') %}
-<img src="{{ static_url }}" alt="Forecast Image">
+<body style="text-align: center;">
+  <div >
+    <h2>Current weather in {{ data.region }}</h2>
+    <p>{{ data.date }}, {{ data.time }}</p>
+    <p>Temperature: {{ data.temp_now }}</p>
+    <p>Summary: {{ data.summary }}</p>
+    <p>Chance of precipitation: {{ data.precipitation }}</p>
+    <p>Humidity: {{ data.humidity }}</p>
+    <p>UV Index: {{ data.UV }}</p>
+    <p>Wind: {{ data.wind }}</p>
+  </div>
+  <div>
+    <h2>Next 10 days</h2>
+    {% set static_url = url_for('static', filename='forecast.png') %}
+    <img class = "img-plot" src="{{ static_url }}" alt="Forecast Image">
+
+
+  </div>
+  <div class="header">10 Day Forecast</div>
+  
+  <div>
+  {% for day in data.next_days[:-1]%}
+    <div class="card">
+      <h3>{{ day.name }}</h3>
+      <div class="weather">Weather: {{ day.weather }}</div>
+      <div class="temperatures">
+        <div class="high-temp">High: {{ day.max_temp }}</div>
+        <div class="low-temp">Low: {{ day.min_temp }}</div>  
+      </div>
+      <p>Chance of Rain: {{ day.rain_chance }}</p>
+    </div>
+  {% endfor %} 
+  </div>
+  <div class="footer">Footer</div>
+  <p><a href="../index.html">Home</a></p>
+</body>
