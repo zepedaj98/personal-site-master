@@ -16,7 +16,7 @@
   .card{
     width:100vw;
     height:25vh;
-    background: tan;
+    background: rgb(97, 182, 252);
     color: black;
     display: flex;
     flex-direction: column;
@@ -49,6 +49,23 @@
     margin-top: 10px;
     width: 75%;
   }
+  .weather-icon {
+    float: left;
+    margin-right: 10px;
+  }
+  .weather-icon img {
+    width: 50px;
+    height: 50px;
+  }
+  .container {
+    display: flex; /*use flexbox for weather plot*/
+    flex-wrap: wrap; /*allow for flex items to wrap to new line if needed*/
+  }
+  .img-plt {
+    flex: 1; /* allow img-plot to grow and shrink as needed */
+    max-width: 100%;
+    height: auto;
+  }
 </style>
 
 <body style="text-align: center;">
@@ -62,7 +79,7 @@
     <p>UV Index: {{ data.UV }}</p>
     <p>Wind: {{ data.wind }}</p>
   </div>
-  <div>
+  <div class="container">
     <h2>Next 10 days</h2>
     {% set static_url = url_for('static', filename='forecast.png') %}
     <img class = "img-plot" src="{{ static_url }}" alt="Forecast Image">
@@ -75,7 +92,12 @@
   {% for day in data.next_days[:-1]%}
     <div class="card">
       <h3>{{ day.name }}</h3>
-      <div class="weather">Weather: {{ day.weather }}</div>
+      <div class="weather">
+        <p>Weather: {{ day.weather }}</p>
+      </div>
+      <div class="weather-icon">
+        <img src="{{ url_for('static', filename='PNG/weather-icons/'+ weather_icon_mapping[day.weather]) }}" alt="Weather Icon">
+      </div>
       <div class="temperatures">
         <div class="high-temp">High: {{ day.max_temp }}</div>
         <div class="low-temp">Low: {{ day.min_temp }}</div>  

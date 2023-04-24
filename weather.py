@@ -44,6 +44,14 @@ app = Flask(__name__, static_folder='static')
 @app.route('/')
 
 def weather():
+        # Define mapping of weather conditions to icon file names 
+    weather_icon_mapping = {
+        'Mostly Sunny': 'day_clear.png',
+        'Sunny': 'day_clear.png',
+        'Partly Cloudy': 'cloudy.png',
+        'Partly Cloudy/Wind': 'wind.png',
+    }
+
     def get_weather_data(url):
         session = requests.Session()
         session.headers['User-Agent'] = USER_AGENT
@@ -92,9 +100,12 @@ def weather():
             min_temp = day.find("span", {"class": "DetailsSummary--lowTempValue--2tesQ"}).text.strip()
             # find chance of rain
             rain_chance = day.find("span", {"data-testid": "PercentageValue"}).text.strip()
-            next_days.append({"name": day_name, "max_temp": max_temp, "min_temp": min_temp, "weather": weather, "rain_chance": rain_chance})
+            # get corresponding weather icon based on weather conditions for the day
+            weather_icon = weather_icon_mapping.get(day.weather, 'default.png')
+            next_days.append({"name": day_name, "max_temp": max_temp, "min_temp": min_temp, "weather": weather, "rain_chance": rain_chance, "weather_icon": weather_icon})
         # append to result
         result['next_days'] = next_days
+
         return result 
     def display_weather(data):
         #create empty lists to store the data for the forecast for plotting
@@ -135,7 +146,7 @@ def weather():
     #scrape 10day weather forecast from weather.com and store it in data
     data = get_weather_data(URL)
     html = display_weather(data)
-    return render_template('forecast.html', data=data)
+    return render_template('forecast.html', data=data, weather_icon_mapping=weather_icon_mapping)
 
 if __name__ == "__main__":
     app.run(debug=True)
