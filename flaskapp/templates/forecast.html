@@ -1,0 +1,165 @@
+<head>
+  <meta charset="utf-8">
+  <title>Weather</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        // Add smooth scrolling to all links
+        $("a").on('click', function(event) {
+
+          // Make sure this.hash has a value before overriding default behavior
+          if (this.hash !== "") {
+            // Prevent default anchor click behavior
+            event.preventDefault();
+
+            // Store hash
+            var hash = this.hash;
+
+            // Using jQuery's animate() method to add smooth page scroll
+            // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+            $('html, body').animate({
+              scrollTop: $(hash).offset().top
+            }, 800, function(){
+          
+              // Add hash (#) to URL when done scrolling (default click behavior)
+              window.location.hash = hash;
+            });
+          } // End if
+        });
+      });
+    </script>
+</head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #648fdf, #2f3199);
+  }
+  .header, .footer {
+    background-color: #171841;
+    color: white;
+    height: 200px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+  }
+  .current-weather h2 {
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 100vw;
+  }
+  .current-weather p {
+    width: 100vw;
+    background-color: darkblue;
+    color: white;
+    padding: 10px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    margin: 5px 0;
+  }
+  .card{
+    width:100vw;
+    height:25vh;
+    background: rgb(97, 182, 252);
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    border: 1px solid black;
+    
+  }
+  .card .temperatures {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    width: 75%;
+  }
+  .card .temperatures .high-temp,
+  .card .temperatures .low-temp {
+    margin-left: 10px;
+  }
+  .card .temperatures .high-temp {
+    color: red;
+  }
+  .card .temperatures .low-temp {
+    color: blue;
+  }
+  .card .weather {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+    width: 75%;
+  }
+  .weather-icon {
+    float: left;
+    margin-right: 10px;
+  }
+  .weather-icon img {
+    width: 50px;
+    height: 50px;
+  }
+  .container {
+    display: flex; /*use flexbox for weather plot*/
+    flex-wrap: wrap; /*allow for flex items to wrap to new line if needed*/
+  }
+  .img-plt {
+    flex: 1; /* allow img-plot to grow and shrink as needed */
+    max-width: 100%;
+    width: 100vw;
+    height: auto;
+  }
+</style>
+
+<body style="text-align: center;">
+  <div id="top"></div>
+  <div class="current-weather">
+    <h2>Current weather in {{ data.region }}</h2>
+    <p>{{ data.date }}, {{ data.time }}</p>
+    <p>Temperature: {{ data.temp_now }}</p>
+    <p>Summary: {{ data.summary }}</p>
+    <p>Chance of precipitation: {{ data.precipitation }}</p>
+    <p>Humidity: {{ data.humidity }}</p>
+    <p>UV Index: {{ data.UV }}</p>
+    <p>Wind: {{ data.wind }}</p>
+  </div>
+  <div class="container">
+    <h2>Next 10 days</h2>
+    {% set static_url = url_for('static', filename='forecast.png') %}
+    <img class = "img-plot" src="{{ static_url }}" alt="Forecast Image">
+  </div>
+  <div class="header">10 Day Forecast</div>
+  
+  <div>
+  {% for day in data.next_days[:-1]%}
+    <div class="card">
+      <h3>{{ day.name }}</h3>
+      <div class="weather">
+        <p>Weather: {{ day.weather }}</p>
+      </div>
+      <div class="weather-icon">
+        <img src="{{ url_for('static', filename='/PNG/weather-icons/'+ weather_icon_mapping[day.weather]) }}" alt="Weather Icon">
+      </div>
+      <div class="temperatures">
+        <div class="high-temp">High: {{ day.max_temp }}</div>
+        <div class="low-temp">Low: {{ day.min_temp }}</div>  
+      </div>
+      <p>Chance of Rain: {{ day.rain_chance }}</p>
+    </div>
+  {% endfor %} 
+  </div>
+  <div class="footer">
+    <a href="#top">Return to top</a>
+  </div>
+  <p><a href="../index.html">Home</a></p>
+</body>
