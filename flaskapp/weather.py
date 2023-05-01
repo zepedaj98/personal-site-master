@@ -41,7 +41,7 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 LANGUAGE = "en-US,en;q=0.5"
 
 app = Flask(__name__, static_folder='static')
-@app.route('/')
+@app.route('/flaskapp/')
 
 def weather():
         # Define mapping of weather conditions to icon file names 
@@ -50,6 +50,8 @@ def weather():
         'Sunny': 'day_clear.png',
         'Partly Cloudy': 'cloudy.png',
         'Partly Cloudy/Wind': 'wind.png',
+        'Mostly Cloudy': 'cloudy.png',
+        'AM Clouds/PM Sun': 'cloudy.png'
     }
 
     def get_weather_data(url):
@@ -137,7 +139,7 @@ def weather():
         plt.title('Forecast PLot')
         ax.legend()
         
-        #save image to file
+        #save image to static directory
         fig.savefig('static/forecast.png')
 
         return 0
