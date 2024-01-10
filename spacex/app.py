@@ -41,8 +41,8 @@ def categorize_launches(Launches):
 
 launches = categorize_launches(fetch_spacex_launches())
 
-app.config["APPLICATION_ROOT"] = "/spacex-proj"
-application = DispatcherMiddleware(Flask("main"), {"/spacex-proj": app})
+app.config["APPLICATION_ROOT"] = "/spacex"
+application = DispatcherMiddleware(Flask("main"), {"/spacex": app})
 
 if __name__ == "__main__":
     app.run(debug=True, port=<5000>, threaded=True, host='0.0.0.0', request_handler="waitress")
