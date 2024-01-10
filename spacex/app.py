@@ -5,12 +5,9 @@ from flask import Flask, render_template
 from datetime import datetime
 import requests
 
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from werkzeug.serving import run_simple
+app = Flask(__name__, static_url_path="/spacex/static", static_folder="static")
 
-app = Flask(__name__)
-
-@app.route("/")
+@app.route("/spacex")
 def index():
     return render_template("index.html", Launches=launches)
 
@@ -40,9 +37,6 @@ def categorize_launches(Launches):
 
 
 launches = categorize_launches(fetch_spacex_launches())
-
-app.config["APPLICATION_ROOT"] = "/spacex"
-application = DispatcherMiddleware(Flask("main"), {"/spacex": app})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000, threaded=True, host='0.0.0.0', request_handler="waitress")
