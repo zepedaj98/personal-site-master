@@ -34,24 +34,27 @@ from matplotlib.figure import Figure
 import matplotlib
 matplotlib.use('Agg')
 import time
-from flask import Flask, url_for, render_template
+from flask import Flask, url_for, render_template, request
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 # US english
 LANGUAGE = "en-US,en;q=0.5"
 
 app = Flask(__name__, static_folder='static')
-@app.route('/flaskapp/')
 
+@app.route('/', methods=['GET', 'POST'])
 def weather():
         # Define mapping of weather conditions to icon file names 
     weather_icon_mapping = {
         'Mostly Sunny': 'day_clear.png',
         'Sunny': 'day_clear.png',
+        'Sunny/Wind': 'cloudy.png',
         'Partly Cloudy': 'cloudy.png',
         'Partly Cloudy/Wind': 'wind.png',
         'Mostly Cloudy': 'cloudy.png',
-        'AM Clouds/PM Sun': 'cloudy.png'
+        'AM Clouds/PM Sun': 'cloudy.png',
+        'PM Showers': 'night_half_moon_rain.png',
+        'AM Showers': 'day_rain.png'
     }
 
     def get_weather_data(url):
@@ -143,12 +146,13 @@ def weather():
         fig.savefig('static/forecast.png')
 
         return 0
-
-    URL = "https://weather.com/weather/tenday/l/1a5e73f128fd8e76d7a098b97c839bc14958ea402d3ab0a210e4f8e0b1d14dec"
+    if request.method == 'POST':
+        zip_code = request.form.get['zip']
+        URL = f"https://weather.com/weather/tenday/l/{zip_code}"
     #scrape 10day weather forecast from weather.com and store it in data
-    data = get_weather_data(URL)
-    html = display_weather(data)
-    return render_template('forecast.html', data=data, weather_icon_mapping=weather_icon_mapping)
-
+        data = get_weather_data(URL)
+        html = display_weather(data)
+        return render_template('forecast.html', data=data, weather_icon_mapping=weather_icon_mapping)
+    return render_template('index.html')
 if __name__ == "__main__":
     app.run(debug=True)
