@@ -1,13 +1,14 @@
 #Flask application that gathers informtation of SpaceX launches
 #creates page in order to display the launch data for failed, successful, and upcoming launches
 
-from flask import Flask, render_template
+from flask import Flask, render_template, Blueprint
 from datetime import datetime
 import requests
 
 app = Flask(__name__, static_url_path="/spacex/static", static_folder="static")
+spacex_bp = Blueprint('spacex_bp', __name__, url_prefix='/spacex')
 
-@app.route("/spacex")
+@spacex_bp.route("/")
 def index():
     return render_template("index.html", Launches=launches)
 
@@ -38,5 +39,7 @@ def categorize_launches(Launches):
 
 launches = categorize_launches(fetch_spacex_launches())
 
+app.register_blueprint(spacex_bp)
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5000, threaded=True, host='0.0.0.0', request_handler="waitress")
+    app.run(debug=True)
