@@ -479,17 +479,19 @@
 
          <div id="modal-04" class="popup-modal mfp-hide">
 
-		      <img class="scale-with-grid" src="images/portfolio/modals/m-blockchain.jpg" alt="" />
+		      <img class="scale-with-grid" src="images/portfolio/modals/spacex.png" alt="" />
 
 		      <div class="description-box">
-			      <h4>Simple Blockchain Project</h4>
-			      <p>This project models a simple (non-distributed) blockchain, with auto-generated transactions set to a fixed amount. Within the program, Merkle Trees are contrustructed from these transactions by a mining node. The mining node attempts to find a nonce that can be appended to the Merkle Root of the tree and SHA-256 hashed to be less than a set difficulty level 
-               (itentionally set low since this project is just for demostration). When found, a block is created and added to the blockchain with the transactions used to generate the Merkle Tree, with the Merkle Root of the tree being used as the block identifier (stored within the block's header). The Merkle Root of the previous block is also stored in the block's header as a reference, allowing for quick and simple validataion of the entire chain. The next steps to this project would be the distribution of the mining node code (likely via docker) as well as a registration node, and the introduction of a wallet application for non-mining nodes to create transactions. This project was created for Introduction to Blockchain at University of Chicago.</p>
+			      <h4>Simple Space X API Visualizer</h4>
+			      <p>This project models a simple Python app, using Flask on the backend and supported by pythonanywhere, which uses data gathered from the Space X API. 
+                  The app gathers seperates the Space X launches and categorizes them as successful, failed, or upcoming, seperating them into their own respective tabs on the website. Each launch panel shows the image of the specific Space X launch,
+                  shows additional information about the flight if available. Each 'launch card' contains links to the reddit page, the Wikipedia page, and the article of that launch. 
+               </p>
                <!--<span class="categories"><i class="fa fa-tag"></i>Photography</span> -->
 		      </div>
 
             <div class="link-box">
-               <a href="https://github.com/nickmaheshwari/simple_blockchain">See the code</a>
+               <a href="http://jaysenzepeda.pythonanywhere.com/">See the Site</a>
 		         <a class="popup-modal-dismiss">Close</a>
             </div>
 
